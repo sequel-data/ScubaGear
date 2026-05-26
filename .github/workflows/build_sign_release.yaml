@@ -36,18 +36,18 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           path: repo
       - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
-        uses: azure/login@v2
+        uses: azure/login@1384c340ab2dda50fed2bee3041d1d87018aa5e8 # v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true
       - name: Sign Module
-        uses: azure/powershell@v1
+        uses: azure/powershell@16e2d4f6710431885766ea533120ab495b24fa12 # v1
         env:
           KEY_VAULT_INFO: ${{ secrets.SCUBA_KEY_VAULT_PROD}}
         with:
@@ -66,7 +66,7 @@ jobs:
             Compress-Archive -Path "ScubaGear-${env:RELEASE_VERSION}" -DestinationPath "ScubaGear-${env:RELEASE_VERSION}.zip"
           azPSVersion: "latest"
       - name: release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@26994186c0ac3ef5cae75ac16aa32e8153525f77 # v1
         id: create_release
         with:
           draft: true
@@ -77,7 +77,7 @@ jobs:
           generate_release_notes: true
           fail_on_unmatched_files: true
       - name: Download release
-        uses: dsaltares/fetch-gh-release-asset@1.1.1
+        uses: dsaltares/fetch-gh-release-asset@a40c8b4a0471f9ab81bdf73a010f74cc51476ad4 # 1.1.1
         if: ${{ inputs.runQuickCheck }}
         with:
           version: ${{ steps.create_release.outputs.id}}
